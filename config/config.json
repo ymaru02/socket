@@ -1,0 +1,18 @@
+{
+  "development": {
+    "host": "localhost",
+    "database": "test",
+    "username": "user",
+    "password": "dbsehdgml2!",
+    "dialect": "mysql",
+    "port": 3306
+  },
+  "product": {
+    "host": "ip",
+    "database": "test",
+    "username": "user",
+    "password": "dbsehdgml2!",
+    "dialect": "mysql",
+    "port": 3306
+  }
+}

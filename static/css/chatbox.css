@@ -1,0 +1,105 @@
+#chatbox {
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(254, 254, 254, 0.18);
+  border-radius: 15px;
+  box-shadow: 0 10px 35px 0 rgba(54, 33, 0, 0.65);
+  color: black;
+  width: 50vw;
+  height: 500px;
+  overflow: hidden;
+  padding: 20px 30px 50px 30px;
+  position: relative;
+  z-index: 1;
+}
+#chatbox button {
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+  margin: 0.25rem;
+}
+
+#form {
+  background: rgba(0, 0, 0, 0.15);
+  padding: 0.25rem;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  height: 3rem;
+  box-sizing: border-box;
+  backdrop-filter: blur(10px);
+}
+#form span {
+  padding: 0.5rem 1rem;
+}
+#input {
+  border: none;
+  padding: 0 1rem;
+  flex-grow: 1;
+  border-radius: 5px;
+  margin: 0.25rem;
+}
+#input:focus {
+  outline: none;
+}
+
+#messages {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  max-height: 460px;
+  overflow-y: auto;
+}
+
+#messages::-webkit-scrollbar {
+  width: 10px;
+}
+#messages::-webkit-scrollbar-thumb {
+  background-color: rgba(239, 184, 255, 0.5);
+  border-radius: 10px;
+}
+#messages::-webkit-scrollbar-track {
+  background-color: rgba(255, 200, 154, 0.5);
+  border-radius: 10px;
+  box-shadow: inset 2px 2px 2px 0px rgba(255, 255, 255, 0.5),
+    7px 7px 20px 0px rgba(0, 0, 0, 0.1), 4px 4px 5px 0px rgba(0, 0, 0, 0.1);
+}
+
+#messages > li {
+  padding: 0.5rem 1rem;
+}
+
+#select {
+  border-radius: 5px;
+  width: 100px;
+  padding: 0 1rem;
+  margin: 0.25rem;
+}
+.chat__custom {
+  border-radius: 5px;
+  background: transparent;
+  cursor: pointer;
+  box-shadow: inset 2px 2px 2px 0px rgba(255, 255, 255, 0.5),
+    7px 7px 20px 0px rgba(0, 0, 0, 0.1), 4px 4px 5px 0px rgba(0, 0, 0, 0.1);
+}
+.msg {
+  display: inline-block;
+  padding: 5px;
+  border-radius: 5px;
+}
+.all {
+  background: rgba(255, 231, 50, 0.3);
+}
+.to {
+  background: rgba(200, 120, 255, 0.3);
+}
+.mymsg {
+  text-align: end;
+}
+.notice {
+  color: rgb(255, 255, 255);
+  text-align: center;
+}

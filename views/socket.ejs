@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.min.js"
+      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+      crossorigin="anonymous"
+    ></script>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Heebo:wght@100;200;300&amp;display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <link rel="stylesheet" href="/static/css/user.css" />
+    <link rel="stylesheet" href="/static/css/chatbox.css" />
+  </head>
+  <body>
+    <div class="scene flex">
+      <section id="chatbox">
+        <div>
+          <button class="chat__custom" onclick="back()">
+            <span class="material-symbols-outlined"> keyboard_backspace </span>
+          </button>
+        </div>
+        <ul id="messages"></ul>
+        <form id="form" action="">
+          <select id="select" name=""></select>
+          <span>에게</span>
+          <input id="input" autocomplete="off" />
+          <button class="chat__custom">
+            <span class="material-symbols-outlined"> send </span>
+          </button>
+        </form>
+      </section>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      let socket = io.connect();
+      let messages = document.getElementById("messages");
+      let form = document.getElementById("form");
+      let input = document.getElementById("input");
+      let select = document.getElementById("select");
+
+      const name = "<%=data.name%>";
+      socket.emit("enter", name);
+
+      socket.on("notice", (msg) => {
+        let item = document.createElement("li");
+        let span = document.createElement("span");
+        span.classList.add("msg");
+        span.classList.add("chat__custom");
+        span.textContent = msg;
+        item.classList.add("notice");
+        item.append(span);
+        messages.appendChild(item);
+      });
+
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        if (!input.value) return;
+
+        let item = document.createElement("li");
+        let span = document.createElement("span");
+        item.classList.add("mymsg");
+        span.classList.add("msg");
+        span.classList.add("chat__custom");
+        if (select.value === "all") {
+          span.classList.add("all");
+          span.textContent = `${name} : ${input.value}`;
+        } else {
+          span.classList.add("to");
+          span.textContent = `(속닥 속닥)${name} : ${input.value}`;
+        }
+        item.append(span);
+        messages.appendChild(item);
+        messages.scrollTo(0, messages.scrollHeight);
+        socket.emit("chat message", { id: select.value, msg: input.value });
+        input.value = "";
+      });
+
+      socket.on("chat message", function (data) {
+        let item = document.createElement("li");
+        let span = document.createElement("span");
+        span.classList.add("chat__custom");
+        span.classList.add("msg");
+        if (data.type === "all") {
+          span.textContent = `${data.id} : ${data.msg}`;
+          span.classList.add("all");
+        } else {
+          span.textContent = `(속닥 속닥)${data.id} : ${data.msg}`;
+          span.classList.add("to");
+        }
+        item.append(span);
+        messages.appendChild(item);
+        messages.scrollTo(0, messages.scrollHeight);
+      });
+
+      socket.on("users", (data) => {
+        select.innerHTML = "";
+        for (let key in data) {
+          if (key != socket.id) {
+            const option = document.createElement("option");
+            option.value = key;
+            option.innerText = data[key];
+            select.append(option);
+          }
+        }
+      });
+
+      function back() {
+        location.href = "/signin";
+      }
+    </script>
+  </body>
+</html>
